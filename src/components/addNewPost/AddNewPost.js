@@ -12,12 +12,19 @@ const PostSchema = Yup.object().shape({
   category: Yup.string().required("Category is required"),
 });
 
+const options = [
+  { value: "", label: "Select category" },
+  { value: "movies", label: "Movies" },
+  { value: "sport", label: "Sport" },
+  { value: "music", label: "Music" },
+  { value: "health", label: "Health" },
+]
+
 const AddNewPost = ({ handleClose, show, post }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleAddNewPost = async (values) => {
-      console.log(post)
     try{
         if(post){
             setLoading(true);
@@ -45,13 +52,9 @@ const AddNewPost = ({ handleClose, show, post }) => {
           category: post ? post.category : "",
         }}
         validationSchema={PostSchema}
-        onSubmit={(values) => {
-            console.log("submit 2");
-            handleAddNewPost(values);
-        }}
       >
         {({ values, errors, touched, handleChange, handleBlur }) => (
-          <Form onSubmit={e=>{ e.preventDefault(); console.log("submit"); handleAddNewPost(values); }}>
+          <Form onSubmit={e=>{ e.preventDefault(); handleAddNewPost(values); }}>
             <Modal.Body>
               <InputField
                 id="title"
@@ -72,23 +75,23 @@ const AddNewPost = ({ handleClose, show, post }) => {
                 handleBlur={handleBlur}
                 error={touched.description && errors.description}
               />
-              <Form.Select
-                name="category"
-                value={values.category}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              >
-                <option value="movies">Movies</option>
-                <option value="health">Health</option>
-                <option value="music">Music</option>
-                <option value="sport">Sport</option>
-              </Form.Select>
-              <Form.Control.Feedback
-                type="invalid"
-                className="mb-3 ms-2 position-absolute"
-              >
-                {touched.category && errors.category}
-              </Form.Control.Feedback>
+              <Form.Group className="mb-4 position-relative" controlId="category">
+                  <Form.Control
+                    required
+                    as="select"
+                    value={values.category}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    isInvalid={!!(touched.category && errors.category)}
+                  >
+                    {options.map((option, index) => {
+                        return (<option key={index} value={option.value}>{option.label}</option>)
+                    })}
+                    </Form.Control>
+                  <Form.Control.Feedback type="invalid" className="mb-3 ms-2 position-absolute">
+                    {touched.category && errors.category}
+                  </Form.Control.Feedback>
+              </Form.Group>
             </Modal.Body>
 
             <Modal.Footer>

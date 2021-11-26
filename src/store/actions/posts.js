@@ -34,6 +34,7 @@ export const getAllPosts = () => async (dispatch) => {
 
   export const addNewPost = (post) => async (dispatch) => {
       try{
+        console.log("addnewpost", post)
         const data = await addNew(post);
         console.log("add", data)
         dispatch({

@@ -7,7 +7,6 @@ const InputField = ({ id, type, label, value, textarea, handleChange, handleBlur
       <FloatingLabel controlId={id} label={label}>
         <Form.Control
           required
-          className="dark"
           type={type}
           placeholder={label}
           value={value}
