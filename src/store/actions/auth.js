@@ -9,7 +9,7 @@ import {
     GET_USER_FAIL,
   } from "./types";
   
-import { signup, login, logout, getCurrentUser } from "../../services/AuthService";
+import { signup, login, getCurrentUser } from "../../services/AuthService";
   
 
 export const getUser = () => async (dispatch) => {
@@ -77,7 +77,6 @@ export const getUser = () => async (dispatch) => {
   export const loginUser = (email, password) => async (dispatch) => {
     try{
         const response = await login(email,password);
-        console.log(response)
           dispatch({
             type: LOGIN_SUCCESS,
             payload: response.data.user

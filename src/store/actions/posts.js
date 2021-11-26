@@ -3,7 +3,8 @@ import {
     ADD_NEW_POST,
     DELETE_POST,
     UPDATE_POST,
-    SET_MESSAGE
+    SET_MESSAGE,
+    SEARCH_POSTS
   } from "./types";
   
 import { addNew, getAll, update, deletePostById } from "../../services/PostsService";
@@ -34,9 +35,7 @@ export const getAllPosts = () => async (dispatch) => {
 
   export const addNewPost = (post) => async (dispatch) => {
       try{
-        console.log("addnewpost", post)
         const data = await addNew(post);
-        console.log("add", data)
         dispatch({
             type: ADD_NEW_POST,
             payload: data.post
@@ -66,7 +65,6 @@ export const getAllPosts = () => async (dispatch) => {
   export const deletePost = (id) => async (dispatch) => {
     try{
         const data = await deletePostById(id);
-        console.log("delete", data)
 
           dispatch({
             type: DELETE_POST,
@@ -98,7 +96,6 @@ export const getAllPosts = () => async (dispatch) => {
   export const updatePost = (id, post) => async (dispatch) => {
     try{
         const data = await update(id, {...post});
-        console.log("update", data)
 
           dispatch({
             type: UPDATE_POST,
@@ -125,3 +122,10 @@ export const getAllPosts = () => async (dispatch) => {
         });
       }
   };
+
+  export const searchPosts = (value) => (dispatch) => {
+    dispatch({
+      type: SEARCH_POSTS,
+      payload: value
+    });
+  }

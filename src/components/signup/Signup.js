@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import { Image, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { signup } from "../../services/AuthService";
 import { useDispatch } from "react-redux";
 import { signupUser } from "../../store/actions/auth";
-// import { useDispatch } from "react-redux";
-// import { setToken, setUser } from "../userProfile/userSlice";
-// // import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
-// import GoogleLoginBtn from "../googleLogin/GoogleLoginBtn";
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),

@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { clearMessage } from "../../store/actions/message";
 

@@ -1,58 +1,53 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Row, Button, Container } from "react-bootstrap";
+import { Col, Row, Button, Container, Form, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../store/actions/auth";
-import { getAllPosts } from "../../store/actions/posts";
-import AddNewPost from "../addNewPost/AddNewPost";
+import { getAllPosts, searchPosts } from "../../store/actions/posts";
+import MenuBar from "../menuBar/MenuBar";
 import Post from "../post/Post";
 
 const Dashboard = () => {
+  const { filteredPosts } = useSelector((state) => state.posts);
   const { user } = useSelector((state) => state.auth);
-  const { posts } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  
-  const handleLogout = async () => {
-    try{
-        console.log("logout")
-        await dispatch(logoutUser());
-    }catch(error){
-        console.log(error)
-    }
-  };
+  const [input, setInput] = useState("");
 
     useEffect(async ()=>{
         if(!localStorage.getItem("blog-token")) return
-        console.log(localStorage.getItem("blog-token"))
         try{
             setLoading(true);
             await dispatch(getAllPosts());
         }catch(error){
-            console.log(error)
+            console.error(error)
         }
         setLoading(false)
     },[user])
 
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try{
+        await dispatch(searchPosts(input));
+        setInput("");
+      }catch(error){
+          console.error(error)
+      }
+    }
+
   return (
+    <>
+    <MenuBar/>
     <Container className="px-3 py-5">
-      <Row>
-        <Col sm={12} md={6}>
-          <h2> Hi {user?.username}!</h2>
-        </Col>
-        <Col sm={12} md={6} className="text-center text-md-end ">
-          <Button variant="light" className="m-2" onClick={handleShow}>
-            Add New Post
-          </Button>
-          <Button variant="light" className="m-2" onClick={handleLogout}>
-            Logout
-          </Button>
-        </Col>
-      </Row>
+      <Form className="d-flex my-2" onSubmit={handleSubmit}>
+            <FormControl
+            type="search"
+            placeholder="Search"
+            className="me-2"
+            aria-label="Search"
+            onChange={(e)=>setInput(e.target.value)}
+            />
+            <Button type="submit" variant="outline-light">Search</Button>
+        </Form>
       <Row>
         <Col className="text-center">
           <h2>These are your blog posts</h2>
@@ -60,10 +55,10 @@ const Dashboard = () => {
       </Row>
 
       <Row>
-          {posts.map((p) => <Post key={p._id} p={p} />)}
+          {filteredPosts.map((p) => <Post key={p._id} p={p} />)}
       </Row>
-      <AddNewPost handleClose={handleClose} show={show} />
     </Container>
+    </>
   );
 };
 

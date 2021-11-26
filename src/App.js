@@ -22,7 +22,7 @@ function App() {
   },[]);
 
   return (
-    <Container fluid className="position-relative" style={{minHeight:"100vh"}}>
+    <Container fluid className="position-relative px-0" style={{minHeight:"100vh"}}>
       <MessageAlert/>
       <Router>
           <Routes>

@@ -6,10 +6,6 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/actions/auth";
-// import { useDispatch } from "react-redux";
-// import { setToken, setUser } from "../userProfile/userSlice";
-// // import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
-// import GoogleLoginBtn from "../googleLogin/GoogleLoginBtn";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -34,7 +30,7 @@ const Login = () => {
 
 
   return (
-    <Row className="justify-content-center align-items-center p-3" style = {{height:"100vh"}}>
+    <Row className="justify-content-center align-items-center m-0 p-2" style = {{height:"100vh"}}>
     <Col md={5} className="p-5" style={{backgroundColor:"white", borderRadius:"15px"}}>
           <h1 className="text-start">Login to the app</h1>
       <Formik
